@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const categoryController = require("../controller/categories");
+const categoryController = require("../controller/categories.js");
 const multer = require("multer");
-const { loginCheck } = require("../middleware/auth");
+const { loginCheck } = require("../middleware/auth.js");
+
 
 // Image Upload setting
 var storage = multer.diskStorage({
@@ -21,7 +22,7 @@ router.post(
   "/add-category",
   loginCheck,
   upload.single("cImage"),
-  categoryController.postAddCategory
+  categoryController.postAddcategory
 );
 router.post("/edit-category", loginCheck, categoryController.postEditCategory);
 router.post(

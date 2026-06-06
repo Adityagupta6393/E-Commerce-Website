@@ -1,3 +1,8 @@
+const userModel = require("../models/users.model.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config/keys");
+
 class Auth {
     async isAdmin(req, res) {
         let { loggedInUserId } = req.body;

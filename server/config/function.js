@@ -1,4 +1,4 @@
-const userModel = require('../models/user.model');
+const userModel = require('../models/users.model.js');
 
 exports.toTitleCase = function (str) {
   return str.replace(/\w\S*/g, function (txt) {

@@ -1,7 +1,17 @@
 {
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "braintree": "^3.37.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "crypto": "^1.0.1",
     "dotenv": "^17.4.0",
     "express": "^5.2.1",
-    "mongoose": "^9.4.1"
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.4.1",
+    "morgan": "^1.11.0",
+    "multer": "^2.1.1",
+    "razorpay": "^2.9.6"
   }
 }

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/keys");
-const userModel = require("../models/user.model");
+const userModel = require("../models/users.model.js");
 
 exports.loginCheck = (req, res, next) => {
   try {

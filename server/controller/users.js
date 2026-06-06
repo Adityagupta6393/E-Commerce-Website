@@ -1,5 +1,5 @@
-const userModel = require("../models/users");
-const bcrypt = require("bcryptjs");
+const userModel = require("../models/users.model.js");
+const bcrypt = require("bcrypt");
 
 class User {
   async getAllUser(req, res) {
