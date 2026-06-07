@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema(
 
         pSold: {
             type: Number,
-            required: true
+            default: 0
         },
 
         pQuantity: {
@@ -33,14 +33,14 @@ const productSchema = new mongoose.Schema(
             ref: "Category"
         },
 
-        pImage: {
-            type: String,
+        pImages: {
+            type: Array,
             default: []
         },
 
         pOffer: {
             type: String,
-            defualt: null
+            default: null
         },
 
         pRatingsReviews: [

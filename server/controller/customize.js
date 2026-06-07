@@ -4,6 +4,9 @@ const productModel = require("../models/products.model.js");
 const orderModel = require("../models/orders.model.js");
 const userModel = require("../models/users.model.js");
 const customizeModel = require("../models/customize.model.js");
+const createFolder = require("../config/uploadFolderCreateScript.js");
+
+createFolder();
 
 class Customize {
   async getImages(req, res) {

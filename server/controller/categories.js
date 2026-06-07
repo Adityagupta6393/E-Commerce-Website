@@ -3,62 +3,75 @@ const categoryModel = require('../models/categories.model.js');
 const fs = require('fs');
 
 class Category {
-    async getAllCategory(req, res) {
-        try {
-            let Categories = await categoryModel.find({}).sort({ _id: -1 });
-            if (Categories) {
-                return res.json({ Categories });
-            }
+  async getAllCategory(req, res) {
+    try {
+      let Categories = await categoryModel.find({}).sort({ _id: -1 });
+      if (Categories) {
+        return res.json({ Categories });
+      }
 
-        } catch (error) {
-            console.log(error);
+    } catch (error) {
+      console.log(error);
 
-        }
     }
+  }
 
-    async postAddcategory(req, res) {
-        let { cName, cDescription, cStatus } = req.body;
-        let cImage = req.file.filename;
-        const filePath = `../server/public/uploads/categories/${cImage}`;
+  async postAddcategory(req, res) {
+    let { cName, cDescription, cStatus } = req.body;
+    let cImage = req.file.filename;
+    const filePath = `../server/public/uploads/categories/${cImage}`;
 
-        if (!cName || !cDescription || !cStatus || !cImage) {
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    console.log(err);
-                }
-                return res.json({ error: "All filled must be required" });
-            });
+    if (!cName || !cDescription || !cStatus || !cImage) {
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log(err);
+        }
+        return res.json({ error: "All filled must be required" });
+      });
+    } else {
+      cName = toTitleCase(cName);
+      try {
+        let checkCategoryExists = await categoryModel.findOne({ cName: cName });
+        if (checkCategoryExists) {
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.log(err);
+            }
+            return res.json({ error: "Category already exists" });
+          });
         } else {
-            cName = toTitleCase(cName);
-            try {
-                let checkCategoryExists = await categoryModel.findOne({ cName: cName });
-                if (checkCategoryExists) {
-                    fs.unlink(filePath, (err) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        return res.json({ error: "Category already exists" });
-                    });
-                } else {
-                    let newCategory = new categoryModel({
-                        cName,
-                        cDescription,
-                        cStatus,
-                        cImage,
-                    });
-                    await newCategory.save((err) => {
-                        if (!err) {
-                            return res.json({ success: "Category created successfully" });
-                        }
-                    });
-                }
-            } catch (err) {
-                console.log(err);
-            }
+          let newCategory = new categoryModel({
+            cName,
+            cDescription,
+            cStatus,
+            cImage,
+          });
+          // await newCategory.save((err) => {
+          //     if (!err) {
+          //         return res.json({ success: "Category created successfully" }); 
+          //     }
+          // });
+          //Newer version doesn't support callback function in save().
+          newCategory.save()
+            .then(data => {
+              res.json({
+                success: "Category created Successfully",
+                newCategory: data
+              });
+            })
+            .catch(err => {
+              res.status(500).json({
+                error: err.message
+              });
+            });
         }
+      } catch (err) {
+        console.log(err);
+      }
     }
+  }
 
-    async postEditCategory(req, res) {
+  async postEditCategory(req, res) {
     let { cId, cDescription, cStatus } = req.body;
     if (!cId || !cDescription || !cStatus) {
       return res.json({ error: "All filled must be required" });
