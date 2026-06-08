@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const orderSchema = mongoose.Schema(
     {
-        allProducts: [
+        allProduct: [
             {
                 id: {
                     type: ObjectId,
@@ -24,12 +24,12 @@ const orderSchema = mongoose.Schema(
 
         amount : {
             type : Number,
-            rquired : true
+            required : true
         },
 
         transactionId : {
             type : String,
-            rquired : true
+            required : true
         },
 
         address : {
@@ -37,12 +37,12 @@ const orderSchema = mongoose.Schema(
             required : true
         },
 
-        phoneNumber : {
+        phone : {
             type : String,
-            rquired : true
+            required : true
         },
 
-        orderStatus : {
+        status : {
             type : String,
             default : "Not Processed",
             enum : [

@@ -38,6 +38,9 @@ class Order {
 
   async postCreateOrder(req, res) {
     let { allProduct, user, amount, transactionId, address, phone } = req.body;
+
+    console.log(allProduct, user, amount, transactionId, address, phone);
+
     if (
       !allProduct ||
       !user ||
@@ -76,11 +79,18 @@ class Order {
         status: status,
         updatedAt: Date.now(),
       });
-      currentOrder.exec((err, result) => {
-        if (err) console.log(err);
-        return res.json({ success: "Order updated successfully" });
-      });
+
+      currentOrder.then((updatedOrder) => {
+        return res.json({
+          success: "Order updated successfully",
+          order: updatedOrder
+        });
+      }).catch((err) => {
+        console.log(err);
+      }
+      );
     }
+
   }
 
   async postDeleteOrder(req, res) {
