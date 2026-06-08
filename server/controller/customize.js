@@ -65,10 +65,10 @@ class Customize {
 
   async getAllData(req, res) {
     try {
-      let Categories = await categoryModel.find({}).count();
-      let Products = await productModel.find({}).count();
-      let Orders = await orderModel.find({}).count();
-      let Users = await userModel.find({}).count();
+      let Categories = await categoryModel.find({}).countDocuments();
+      let Products = await productModel.find({}).countDocuments();
+      let Orders = await orderModel.find({}).countDocuments();
+      let Users = await userModel.find({}).countDocuments();
       if (Categories && Products && Orders) {
         return res.json({ Categories, Products, Orders, Users });
       }
