@@ -90,7 +90,7 @@ function MyOrders() {
                   className="flex items-center gap-5 border-b pb-4"
                 >
                   <img
-                    src={`http://localhost:5000/uploads/products/${product.id?.pImages?.[0]}`}
+                    src={`${import.meta.env.VITE_API_URL}/uploads/products/${product.id?.pImages?.[0]}`}
                     className="w-20 h-20 object-cover rounded"
                   />
 

@@ -176,7 +176,7 @@ function Categories() {
               >
                 <td className="p-4">
                   <img
-                    src={`http://localhost:5000/uploads/categories/${cat.cImage}`}
+                    src={`${import.meta.env.VITE_API_URL}/uploads/categories/${cat.cImage}`}
                     className="w-16 h-16 object-cover rounded"
                   />
                 </td>

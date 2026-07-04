@@ -39,7 +39,7 @@ function ProductCard({ product }) {
       </button>
 
       <img
-        src={`http://localhost:5000/uploads/products/${product.pImages[0]}`}
+        src={`${import.meta.env.VITE_API_URL}/uploads/products/${product.pImages[0]}`}
         alt={product.pName}
         className="w-full h-60 object-cover"
       />

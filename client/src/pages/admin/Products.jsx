@@ -80,7 +80,7 @@ function Products() {
                             >
                                 <td className="p-4">
                                     <img
-                                        src={`http://localhost:5000/uploads/products/${item.pImages?.[0]}`}
+                                        src={`${import.meta.env.VITE_API_URL}/uploads/products/${item.pImages?.[0]}`}
                                         className="w-16 h-16 object-cover rounded"
                                     />
                                 </td>

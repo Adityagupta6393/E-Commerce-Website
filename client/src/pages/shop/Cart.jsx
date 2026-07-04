@@ -52,7 +52,7 @@ function Cart() {
               className="bg-white rounded-xl shadow p-5 flex gap-5"
             >
               <img
-                src={`http://localhost:5000/uploads/products/${item.pImages[0]}`}
+                src={`${import.meta.env.VITE_API_URL}/uploads/products/${item.pImages[0]}`}
                 className="w-32 h-32 object-cover rounded-lg"
               />
 

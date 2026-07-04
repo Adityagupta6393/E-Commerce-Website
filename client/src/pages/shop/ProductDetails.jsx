@@ -52,7 +52,7 @@ function ProductDetails() {
         <div>
 
           <img
-            src={`http://localhost:5000/uploads/products/${product.pImages[imageIndex]}`}
+            src={`${import.meta.env.VITE_API_URL}/uploads/products/${product.pImages[imageIndex]}`}
             className="w-full h-[500px] object-cover rounded-xl"
           />
 
@@ -61,7 +61,7 @@ function ProductDetails() {
             {product.pImages.map((img, i) => (
               <img
                 key={i}
-                src={`http://localhost:5000/uploads/products/${img}`}
+                src={`${import.meta.env.VITE_API_URL}/uploads/products/${img}`}
                 onClick={() => setImageIndex(i)}
                 className={`w-24 h-24 object-cover rounded cursor-pointer border-4 ${
                   imageIndex === i
