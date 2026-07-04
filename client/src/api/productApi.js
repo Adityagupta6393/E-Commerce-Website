@@ -30,12 +30,16 @@ export const getProductsByPrice = async (price) => {
 };
 
 export const addProduct = async (formData) => {
+  const token = localStorage.getItem("token");
+  const userData = JSON.parse(localStorage.getItem("user"));
+
   const { data } = await api.post(
     "/product/add-product",
     formData,
     {
       headers: {
         "Content-Type": "multipart/form-data",
+        token: `Bearer ${token}`,
       },
     }
   );
@@ -44,12 +48,15 @@ export const addProduct = async (formData) => {
 };
 
 export const editProduct = async (formData) => {
+  const token = localStorage.getItem("token");
+
   const { data } = await api.post(
     "/product/edit-product",
     formData,
     {
       headers: {
         "Content-Type": "multipart/form-data",
+        token: `Bearer ${token}`,
       },
     }
   );
@@ -58,9 +65,16 @@ export const editProduct = async (formData) => {
 };
 
 export const deleteProduct = async (pId) => {
+  const token = localStorage.getItem("token");
+
   const { data } = await api.post(
     "/product/delete-product",
-    { pId }
+    { pId },
+    {
+      headers: {
+        token: `Bearer ${token}`,
+      },
+    }
   );
 
   return data;

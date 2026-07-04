@@ -22,7 +22,7 @@ router.post("/product-by-price", productController.getProductByPrice);
 router.post("/wish-product", productController.getWishProduct);
 router.post("/cart-product", productController.getCartProduct);
 
-router.post("/add-product",loginCheck, isAdmin, upload.any(), productController.postAddProduct);
+router.post("/add-product",loginCheck, isAdmin,upload.any(), productController.postAddProduct);
 router.post("/edit-product",loginCheck, isAdmin, upload.any(), productController.postEditProduct);
 router.post("/delete-product", loginCheck, isAdmin, productController.getDeleteProduct);
 router.post("/single-product", productController.getSingleProduct);
