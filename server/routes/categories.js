@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const categoryController = require("../controller/categories.js");
 const multer = require("multer");
-const { loginCheck } = require("../middleware/auth.js");
+const { loginCheck, isAdmin } = require("../middleware/auth.js");
 
 
 // Image Upload setting
@@ -20,14 +20,15 @@ const upload = multer({ storage: storage });
 router.get("/all-category", categoryController.getAllCategory);
 router.post(
   "/add-category",
-  loginCheck,
+  loginCheck, isAdmin,
   upload.single("cImage"),
   categoryController.postAddcategory
 );
-router.post("/edit-category", loginCheck, categoryController.postEditCategory);
+router.post("/edit-category", loginCheck, isAdmin, categoryController.postEditCategory);
 router.post(
   "/delete-category",
   loginCheck,
+  isAdmin,
   categoryController.getDeleteCategory
 );
 

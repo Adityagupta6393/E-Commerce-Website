@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema(
     {
         pName: {
             type: String,
-            rquired: true
+            required: true
         },
 
         pDescription: {
@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema(
         pRatingsReviews: [
             {
                 review: String,
-                user: { type: ObjectId, ref: "users" },
+                user: { type: ObjectId, ref: "User" },
                 rating: String,
                 createdAt: {
                     type: Date,

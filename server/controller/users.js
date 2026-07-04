@@ -6,14 +6,14 @@ class User {
     try {
       let Users = await userModel
         .find({})
-        .populate("allProduct.id", "pName pImages pPrice")
-        .populate("user", "name email")
         .sort({ _id: -1 });
-      if (Users) {
-        return res.json({ Users });
-      }
+
+      return res.json({ Users });
     } catch (err) {
       console.log(err);
+      return res.json({
+        error: "Failed to fetch users",
+      });
     }
   }
 
@@ -75,11 +75,24 @@ class User {
         name: name,
         phoneNumber: phoneNumber,
         updatedAt: Date.now(),
-      });
-      currentUser.exec((err, result) => {
-        if (err) console.log(err);
-        return res.json({ success: "User updated successfully" });
-      });
+      },
+      {
+        new : true
+      }
+      );
+      // currentUser.exec((err, result) => {
+      //   if (err) console.log(err);
+      //   return res.json({ success: "User updated successfully" });
+      // });
+      try {
+        let update = await currentUser.exec();
+        if (update) {
+          return res.json({ success: "User updated successfully", user: update });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
     }
   }
 
@@ -91,11 +104,23 @@ class User {
       let currentUser = userModel.findByIdAndUpdate(oId, {
         status: status,
         updatedAt: Date.now(),
-      });
-      currentUser.exec((err, result) => {
-        if (err) console.log(err);
-        return res.json({ success: "User updated successfully" });
-      });
+      },
+      {
+        new: true
+      }
+      );
+      // currentUser.exec((err, result) => {
+      //   if (err) console.log(err);
+      //   return res.json({ success: "User updated successfully" });
+      // });
+      try {
+        let update = await currentUser.exec();
+        if (update) {
+          return res.json({ success: "User updated successfully", user: update });
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
@@ -115,11 +140,23 @@ class User {
           newPassword = bcrypt.hashSync(newPassword, 10);
           let passChange = userModel.findByIdAndUpdate(uId, {
             password: newPassword,
-          });
-          passChange.exec((err, result) => {
-            if (err) console.log(err);
-            return res.json({ success: "Password updated successfully" });
-          });
+          },
+          {
+            new: true
+          }
+          );
+          // passChange.exec((err, result) => {
+          //   if (err) console.log(err);
+          //   return res.json({ success: "Password updated successfully" });
+          // });
+          try {
+            let update = await passChange.exec();
+            if (update) {
+              return res.json({ success: "Password updated successfully", user: update });
+            }
+          } catch (err) {
+            console.log(err);
+          }
         } else {
           return res.json({
             error: "Your old password is wrong!!",

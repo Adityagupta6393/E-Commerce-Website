@@ -280,7 +280,7 @@ class Product {
       let checkReviewRatingExists = await productModel.findOne({ _id: pId });
       if (checkReviewRatingExists.pRatingsReviews.length > 0) {
         checkReviewRatingExists.pRatingsReviews.map((item) => {
-          if (item.user === uId) {
+          if (item.user.toString() === uId) {
             return res.json({ error: "Your already reviewd the product" });
           } else {
             try {
@@ -342,6 +342,32 @@ class Product {
       } catch (err) {
         console.log(err);
       }
+    }
+  }
+
+  async searchProduct(req, res) {
+    const { keyword } = req.body;
+
+    if (!keyword) {
+      return res.json({ Products: [] });
+    }
+
+    try {
+      const Products = await productModel
+        .find({
+          pName: {
+            $regex: keyword,
+            $options: "i",
+          },
+        })
+        .populate("pCategory", "cName");
+
+      return res.json({ Products });
+    } catch (err) {
+      console.log(err);
+      return res.json({
+        error: "Search failed",
+      });
     }
   }
 }

@@ -73,7 +73,7 @@ class Auth {
                                 email,
                                 password,
                                 // ========= Here role 1 for admin signup role 0 for customer signup =========
-                                userRole: 1, // Field Name change to userRole from role
+                                userRole: 0, // Field Name change to userRole from role
                             });
                             newUser
                                 .save()
@@ -125,9 +125,18 @@ class Auth {
                         JWT_SECRET
                     );
                     const encode = jwt.verify(token, JWT_SECRET);
+                    // return res.json({
+                    //     token: token,
+                    //     user: encode,
+                    // });
                     return res.json({
-                        token: token,
-                        user: encode,
+                        token,
+                        user: {
+                            _id: data._id,
+                            name: data.name,
+                            email: data.email,
+                            role: data.userRole,
+                        },
                     });
                 } else {
                     return res.json({

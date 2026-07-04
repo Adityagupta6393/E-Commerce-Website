@@ -1,4 +1,58 @@
-node_modules
-.env
-uploads
+# Dependencies
+node_modules/
 
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+
+# Build output
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Optional: Ignore uploads folder (if storing user uploads locally)
+uploads/
+
+# Optional: Ignore generated images/files
+public/uploads/
+
+# Optional: MongoDB local database files
+data/
+*.wt
+*.ns
+
+# Package manager locks (keep ONLY if your team agrees)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

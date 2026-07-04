@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema(
 
         history : {
             type : Array,
-            deafault : []
+            default : []
         }
 
     },
