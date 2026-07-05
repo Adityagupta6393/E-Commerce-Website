@@ -42,10 +42,10 @@ Thumbs.db
 .idea/
 
 # Optional: Ignore uploads folder (if storing user uploads locally)
-uploads/
+# uploads/
 
 # Optional: Ignore generated images/files
-public/uploads/
+# public/uploads/
 
 # Optional: MongoDB local database files
 data/
