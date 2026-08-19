@@ -45,7 +45,9 @@ function AddProduct() {
     e.preventDefault();
 
     if (images.length !== 2) {
-      return toast.error("Please select exactly 2 images");
+      return toast.error(
+        "Please select exactly 2 images"
+      );
     }
 
     const formData = new FormData();
@@ -70,104 +72,178 @@ function AddProduct() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow">
+    <div className="max-w-4xl mx-auto">
 
-      <h1 className="text-3xl font-bold mb-8">
-        Add Product
-      </h1>
+      <div className="bg-white p-5 sm:p-6 lg:p-8 rounded-xl shadow-sm">
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-5"
-      >
+        <div className="mb-8">
 
-        <input
-          name="pName"
-          placeholder="Product Name"
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
-        />
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            Add Product
+          </h1>
 
-        <textarea
-          name="pDescription"
-          placeholder="Description"
-          rows={5}
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
-        />
+          <p className="text-gray-500 mt-1">
+            Add a new product to your store
+          </p>
 
-        <input
-          name="pPrice"
-          type="number"
-          placeholder="Price"
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
-        />
+        </div>
 
-        <input
-          name="pQuantity"
-          type="number"
-          placeholder="Quantity"
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
-        />
-
-        <select
-          name="pCategory"
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
         >
-          <option value="">
-            Select Category
-          </option>
 
-          {categories.map((cat) => (
-            <option
-              key={cat._id}
-              value={cat._id}
+          <div>
+            <label className="block font-medium mb-2">
+              Product Name
+            </label>
+
+            <input
+              name="pName"
+              placeholder="Product Name"
+              className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-2">
+              Description
+            </label>
+
+            <textarea
+              name="pDescription"
+              placeholder="Description"
+              rows={5}
+              className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 resize-y"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+            <div>
+              <label className="block font-medium mb-2">
+                Price
+              </label>
+
+              <input
+                name="pPrice"
+                type="number"
+                placeholder="Price"
+                className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">
+                Quantity
+              </label>
+
+              <input
+                name="pQuantity"
+                type="number"
+                placeholder="Quantity"
+                className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+              />
+            </div>
+
+          </div>
+
+          <div>
+            <label className="block font-medium mb-2">
+              Category
+            </label>
+
+            <select
+              name="pCategory"
+              className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleChange}
             >
-              {cat.cName}
-            </option>
-          ))}
-        </select>
+              <option value="">
+                Select Category
+              </option>
 
-        <input
-          name="pOffer"
-          placeholder="Offer"
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
-        />
+              {categories.map((cat) => (
+                <option
+                  key={cat._id}
+                  value={cat._id}
+                >
+                  {cat.cName}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <select
-          name="pStatus"
-          className="w-full border p-3 rounded"
-          onChange={handleChange}
-        >
-          <option value="Active">
-            Active
-          </option>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-          <option value="Inactive">
-            Inactive
-          </option>
-        </select>
+            <div>
+              <label className="block font-medium mb-2">
+                Offer
+              </label>
 
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={(e) =>
-            setImages([...e.target.files])
-          }
-        />
+              <input
+                name="pOffer"
+                placeholder="Offer"
+                className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+              />
+            </div>
 
-        <button
-          className="bg-blue-600 text-white px-8 py-3 rounded"
-        >
-          Add Product
-        </button>
+            <div>
+              <label className="block font-medium mb-2">
+                Status
+              </label>
 
-      </form>
+              <select
+                name="pStatus"
+                className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+              >
+                <option value="Active">
+                  Active
+                </option>
+
+                <option value="Inactive">
+                  Inactive
+                </option>
+              </select>
+            </div>
+
+          </div>
+
+          <div>
+            <label className="block font-medium mb-2">
+              Product Images
+            </label>
+
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) =>
+                setImages([...e.target.files])
+              }
+              className="w-full border border-gray-300 p-3 rounded-lg"
+            />
+
+            <p className="text-sm text-gray-500 mt-2">
+              Select exactly 2 images.
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
+          >
+            Add Product
+          </button>
+
+        </form>
+
+      </div>
 
     </div>
   );

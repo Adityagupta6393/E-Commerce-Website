@@ -5,6 +5,7 @@ import {
   getProductsByCategory,
   searchProducts,
 } from "../../api/productApi";
+
 import { getAllCategories } from "../../api/categoryApi";
 
 import ProductCard from "../../components/product/ProductCard";
@@ -62,20 +63,25 @@ function Home() {
 
     setSortBy(value);
 
-    let sortedProducts = [...products];
+    const sortedProducts = [...products];
 
     if (value === "lowToHigh") {
-      sortedProducts.sort((a, b) => a.pPrice - b.pPrice);
+      sortedProducts.sort(
+        (a, b) => a.pPrice - b.pPrice
+      );
     }
 
     if (value === "highToLow") {
-      sortedProducts.sort((a, b) => b.pPrice - a.pPrice);
+      sortedProducts.sort(
+        (a, b) => b.pPrice - a.pPrice
+      );
     }
 
     if (value === "newest") {
       sortedProducts.sort(
         (a, b) =>
-          new Date(b.createdAt) - new Date(a.createdAt)
+          new Date(b.createdAt) -
+          new Date(a.createdAt)
       );
     }
 
@@ -83,64 +89,81 @@ function Home() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-8">
+    <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 sm:py-8">
 
-      <div className="flex justify-between items-center mb-8">
+      {/* Page Header */}
+      <div className="mb-6 sm:mb-8">
 
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
           Latest Products
         </h1>
 
-        <div className="flex gap-4">
-
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={handleSearch}
-            className="border p-2 rounded-lg"
-          />
-
-          <select
-            value={sortBy}
-            onChange={handleSort}
-            className="border p-2 rounded-lg"
-          >
-            <option value="">
-              Sort By
-            </option>
-
-            <option value="lowToHigh">
-              Price: Low to High
-            </option>
-
-            <option value="highToLow">
-              Price: High to Low
-            </option>
-
-            <option value="newest">
-              Newest
-            </option>
-
-          </select>
-
-        </div>
+        <p className="text-gray-500 text-sm sm:text-base mt-1">
+          Find the products you love
+        </p>
 
       </div>
 
-      <div className="grid md:grid-cols-4 gap-8">
+      {/* Search + Sort */}
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
 
-        <div>
-          <CategorySidebar
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onSelectCategory={handleCategorySelect}
-          />
-        </div>
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={search}
+          onChange={handleSearch}
+          className="w-full sm:flex-1 border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+        />
 
-        <div className="md:col-span-3">
+        {/* Sort */}
+        <select
+          value={sortBy}
+          onChange={handleSort}
+          className="w-full sm:w-auto border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+        >
+          <option value="">
+            Sort By
+          </option>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <option value="lowToHigh">
+            Price: Low to High
+          </option>
+
+          <option value="highToLow">
+            Price: High to Low
+          </option>
+
+          <option value="newest">
+            Newest
+          </option>
+        </select>
+
+      </div>
+
+      {/* Categories */}
+      <div className="mb-6 md:mb-0">
+        <CategorySidebar
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleCategorySelect}
+        />
+      </div>
+
+      {/* Products */}
+      <div className="mt-6">
+
+        {products.length === 0 ? (
+
+          <div className="bg-white rounded-xl p-8 text-center">
+            <p className="text-gray-500">
+              No products found.
+            </p>
+          </div>
+
+        ) : (
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5 lg:gap-6">
 
             {products.map((product) => (
               <ProductCard
@@ -151,7 +174,7 @@ function Home() {
 
           </div>
 
-        </div>
+        )}
 
       </div>
 

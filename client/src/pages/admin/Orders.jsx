@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Trash2 } from "lucide-react";
 
 import {
   getAllOrders,
@@ -30,7 +31,10 @@ function Orders() {
     }
   };
 
-  const handleStatusChange = async (oId, status) => {
+  const handleStatusChange = async (
+    oId,
+    status
+  ) => {
     const res = await updateOrder(oId, status);
 
     if (res.success) {
@@ -40,7 +44,13 @@ function Orders() {
   };
 
   const handleDelete = async (oId) => {
-    if (!window.confirm("Delete this order?")) return;
+    if (
+      !window.confirm(
+        "Delete this order?"
+      )
+    ) {
+      return;
+    }
 
     const res = await deleteOrder(oId);
 
@@ -52,36 +62,64 @@ function Orders() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">
-        Orders
-      </h1>
 
-      <div className="space-y-6">
+      <div className="mb-8">
+
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          Orders
+        </h1>
+
+        <p className="text-gray-500 mt-1">
+          Manage customer orders
+        </p>
+
+      </div>
+
+      <div className="space-y-5">
+
         {orders.map((order) => (
           <div
             key={order._id}
-            className="bg-white rounded-xl shadow p-6"
+            className="bg-white rounded-xl shadow-sm p-4 sm:p-6"
           >
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <p className="font-bold">
-                  Order ID: {order._id}
+
+            {/* Order Header */}
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-5">
+
+              <div className="min-w-0">
+
+                <p className="font-bold break-all">
+                  Order ID:
+                  <span className="font-normal ml-1">
+                    {order._id}
+                  </span>
+                </p>
+
+                <p className="mt-2">
+                  <span className="font-semibold">
+                    Customer:
+                  </span>{" "}
+                  {order.user?.name}
+                </p>
+
+                <p className="break-all">
+                  <span className="font-semibold">
+                    Email:
+                  </span>{" "}
+                  {order.user?.email}
                 </p>
 
                 <p>
-                  Customer: {order.user?.name}
+                  <span className="font-semibold">
+                    Amount:
+                  </span>{" "}
+                  ₹{order.amount}
                 </p>
 
-                <p>
-                  Email: {order.user?.email}
-                </p>
-
-                <p>
-                  Amount: ₹{order.amount}
-                </p>
               </div>
 
-              <div className="flex gap-3 items-center">
+              <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+
                 <select
                   value={order.status}
                   onChange={(e) =>
@@ -90,66 +128,98 @@ function Orders() {
                       e.target.value
                     )
                   }
-                  className="border p-2 rounded"
+                  className="border border-gray-300 p-3 rounded-lg w-full sm:w-auto"
                 >
-                  {orderStatuses.map((status) => (
-                    <option
-                      key={status}
-                      value={status}
-                    >
-                      {status}
-                    </option>
-                  ))}
+                  {orderStatuses.map(
+                    (status) => (
+                      <option
+                        key={status}
+                        value={status}
+                      >
+                        {status}
+                      </option>
+                    )
+                  )}
                 </select>
 
                 <button
                   onClick={() =>
-                    handleDelete(order._id)
+                    handleDelete(
+                      order._id
+                    )
                   }
-                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg"
                 >
+                  <Trash2 size={16} />
                   Delete
                 </button>
+
               </div>
+
             </div>
 
-            <div className="border-t pt-4">
-              {order.allProduct.map((item) => (
-                <div
-                  key={item.id?._id}
-                  className="flex items-center gap-4 mb-3"
-                >
-                  <img
-                    src={`${import.meta.env.VITE_API_URL}/uploads/products/${item.id?.pImages?.[0]}`}
-                    className="w-16 h-16 object-cover rounded"
-                    alt=""
-                  />
+            {/* Products */}
+            <div className="border-t mt-5 pt-5 space-y-4">
 
-                  <div>
-                    <h3 className="font-semibold">
-                      {item.id?.pName}
-                    </h3>
+              {order.allProduct.map(
+                (item) => (
+                  <div
+                    key={item.id?._id}
+                    className="flex gap-4 items-center"
+                  >
 
-                    <p>
-                      Quantity: {item.quantity}
-                    </p>
+                    <img
+                      src={`${import.meta.env.VITE_API_URL}/uploads/products/${item.id?.pImages?.[0]}`}
+                      alt={item.id?.pName}
+                      className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg shrink-0"
+                    />
 
-                    <p>
-                      ₹{item.id?.pPrice}
-                    </p>
+                    <div className="min-w-0">
+
+                      <h3 className="font-semibold truncate">
+                        {item.id?.pName}
+                      </h3>
+
+                      <p className="text-sm text-gray-600">
+                        Quantity: {item.quantity}
+                      </p>
+
+                      <p className="text-sm font-semibold">
+                        ₹{item.id?.pPrice}
+                      </p>
+
+                    </div>
+
                   </div>
-                </div>
-              ))}
+                )
+              )}
+
             </div>
 
-            <div className="mt-4 text-sm text-gray-600">
-              Address: {order.address}
-              <br />
-              Phone: {order.phone}
+            {/* Address */}
+            <div className="border-t mt-5 pt-5 text-sm text-gray-600 leading-6">
+
+              <p>
+                <span className="font-semibold text-gray-800">
+                  Address:
+                </span>{" "}
+                {order.address}
+              </p>
+
+              <p>
+                <span className="font-semibold text-gray-800">
+                  Phone:
+                </span>{" "}
+                {order.phone}
+              </p>
+
             </div>
+
           </div>
         ))}
+
       </div>
+
     </div>
   );
 }

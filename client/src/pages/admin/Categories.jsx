@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Trash2 } from "lucide-react";
 
 import {
   getAllCategories,
@@ -34,16 +35,22 @@ function Categories() {
     e.preventDefault();
 
     if (!image) {
-      return toast.error("Please select an image");
+      return toast.error(
+        "Please select an image"
+      );
     }
 
     const formData = new FormData();
 
     formData.append("cName", form.cName);
-    formData.append("cDescription", form.cDescription);
-    formData.append("cStatus", form.cStatus);
-
-    // Backend expects upload.single("cImage")
+    formData.append(
+      "cDescription",
+      form.cDescription
+    );
+    formData.append(
+      "cStatus",
+      form.cStatus
+    );
     formData.append("cImage", image);
 
     const res = await addCategory(formData);
@@ -76,24 +83,29 @@ function Categories() {
 
     if (res.success) {
       toast.success(res.success);
-
       loadCategories();
     }
   };
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
 
-      <div className="bg-white p-8 rounded-xl shadow">
+      {/* Add Category */}
+      <div className="bg-white p-5 sm:p-6 lg:p-8 rounded-xl shadow-sm">
 
-        <h1 className="text-3xl font-bold mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">
           Add Category
         </h1>
 
+        <p className="text-gray-500 mb-6">
+          Create a new product category
+        </p>
+
         <form
           onSubmit={handleSubmit}
-          className="space-y-4"
+          className="space-y-5"
         >
+
           <input
             type="text"
             placeholder="Category Name"
@@ -104,7 +116,7 @@ function Categories() {
                 cName: e.target.value,
               })
             }
-            className="w-full border p-3 rounded"
+            className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <textarea
@@ -116,7 +128,8 @@ function Categories() {
                 cDescription: e.target.value,
               })
             }
-            className="w-full border p-3 rounded"
+            rows={4}
+            className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 resize-y"
           />
 
           <select
@@ -127,7 +140,7 @@ function Categories() {
                 cStatus: e.target.value,
               })
             }
-            className="w-full border p-3 rounded"
+            className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="Active">
               Active
@@ -144,63 +157,141 @@ function Categories() {
             onChange={(e) =>
               setImage(e.target.files[0])
             }
+            className="w-full border border-gray-300 p-3 rounded-lg"
           />
 
           <button
-            className="bg-blue-600 text-white px-6 py-3 rounded"
+            type="submit"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
           >
             Add Category
           </button>
+
         </form>
+
       </div>
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+      {/* Categories */}
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
 
-        <table className="w-full">
+        <div className="p-5 sm:p-6 border-b">
+          <h2 className="text-xl font-bold">
+            Categories
+          </h2>
+        </div>
 
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-4">Image</th>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        {/* Desktop */}
+        <div className="hidden md:block overflow-x-auto">
 
-          <tbody>
+          <table className="w-full min-w-[600px]">
 
-            {categories.map((cat) => (
-              <tr
-                key={cat._id}
-                className="border-t"
-              >
-                <td className="p-4">
-                  <img
-                    src={`${import.meta.env.VITE_API_URL}/uploads/categories/${cat.cImage}`}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                </td>
-
-                <td>{cat.cName}</td>
-
-                <td>{cat.cStatus}</td>
-
-                <td>
-                  <button
-                    onClick={() =>
-                      handleDelete(cat._id)
-                    }
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-4 text-left">
+                  Image
+                </th>
+                <th className="text-left">
+                  Name
+                </th>
+                <th className="text-left">
+                  Status
+                </th>
+                <th className="text-left">
+                  Actions
+                </th>
               </tr>
-            ))}
+            </thead>
 
-          </tbody>
+            <tbody>
 
-        </table>
+              {categories.map((cat) => (
+                <tr
+                  key={cat._id}
+                  className="border-t"
+                >
+
+                  <td className="p-4">
+                    <img
+                      src={`${import.meta.env.VITE_API_URL}/uploads/categories/${cat.cImage}`}
+                      alt={cat.cName}
+                      className="w-16 h-16 object-cover rounded-lg"
+                    />
+                  </td>
+
+                  <td className="font-medium">
+                    {cat.cName}
+                  </td>
+
+                  <td>
+                    {cat.cStatus}
+                  </td>
+
+                  <td>
+                    <button
+                      onClick={() =>
+                        handleDelete(cat._id)
+                      }
+                      className="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
+                    >
+                      <Trash2 size={16} />
+                      Delete
+                    </button>
+                  </td>
+
+                </tr>
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        {/* Mobile */}
+        <div className="md:hidden p-4 space-y-4">
+
+          {categories.map((cat) => (
+            <div
+              key={cat._id}
+              className="border rounded-xl p-4"
+            >
+
+              <div className="flex gap-4 items-center">
+
+                <img
+                  src={`${import.meta.env.VITE_API_URL}/uploads/categories/${cat.cImage}`}
+                  alt={cat.cName}
+                  className="w-16 h-16 object-cover rounded-lg"
+                />
+
+                <div className="flex-1">
+
+                  <h3 className="font-bold">
+                    {cat.cName}
+                  </h3>
+
+                  <p className="text-sm text-gray-500 mt-1">
+                    Status: {cat.cStatus}
+                  </p>
+
+                </div>
+
+              </div>
+
+              <button
+                onClick={() =>
+                  handleDelete(cat._id)
+                }
+                className="w-full mt-4 flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg"
+              >
+                <Trash2 size={16} />
+                Delete Category
+              </button>
+
+            </div>
+          ))}
+
+        </div>
 
       </div>
 
